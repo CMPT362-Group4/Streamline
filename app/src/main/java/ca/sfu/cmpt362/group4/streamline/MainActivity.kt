@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows, R.id.nav_books, R.id.nav_games
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 

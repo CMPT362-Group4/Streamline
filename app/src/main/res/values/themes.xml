@@ -28,4 +28,9 @@
         <item name="spinBars">true</item>
         <item name="color">@color/neon_teal</item>
     </style>
+
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/dark_teal</item>
+        <!-- You can also customize text color, ripple color, etc. -->
+    </style>
 </resources>

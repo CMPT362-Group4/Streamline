@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="ca.sfu.cmpt362.group4.streamline.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_movies"
+        android:name="ca.sfu.cmpt362.group4.streamline.ui.movies.MoviesFragment"
+        android:label="Movies"
+        tools:layout="@layout/fragment_movies" />
+    <fragment
+        android:id="@+id/nav_tv_shows"
+        android:name="ca.sfu.cmpt362.group4.streamline.ui.tv_shows.TvShowsFragment"
+        android:label="TV Shows"
+        tools:layout="@layout/fragment_tv_shows" />
+    <fragment
+        android:id="@+id/nav_books"
+        android:name="ca.sfu.cmpt362.group4.streamline.ui.books.BooksFragment"
+        android:label="Books"
+        tools:layout="@layout/fragment_books" />
+    <fragment
+        android:id="@+id/nav_games"
+        android:name="ca.sfu.cmpt362.group4.streamline.ui.games.GamesFragment"
+        android:label="Games"
+        tools:layout="@layout/fragment_games" />
+
+</navigation>

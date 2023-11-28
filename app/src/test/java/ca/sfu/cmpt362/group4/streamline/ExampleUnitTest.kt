@@ -1,4 +1,4 @@
-package ca.sfu.cmpt362.group4.steamline
+package ca.sfu.cmpt362.group4.streamline
 
 import org.junit.Test
 

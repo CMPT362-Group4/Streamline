@@ -31,6 +31,11 @@
 
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/dark_teal</item>
-        <!-- You can also customize text color, ripple color, etc. -->
+    </style>
+
+    <style name="Theme.TransparentActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

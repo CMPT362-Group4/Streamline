@@ -4,14 +4,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityMovieDetailBinding
-import ca.sfu.cmpt362.group4.streamline.databinding.FragmentMoviesBinding
-import ca.sfu.cmpt362.group4.streamline.databinding.ItemMovieBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -25,12 +22,17 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Enable the back button
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.back_arrow)
 
 
         val movie = intent.getParcelableExtra<Movie>("movie")
 
         movie?.let {
+
+            //supportActionBar?.title = it.title
 
             binding.textTitle.text = it.title
             binding.textOverview.text = it.overview

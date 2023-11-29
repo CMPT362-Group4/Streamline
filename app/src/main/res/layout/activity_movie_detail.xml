@@ -15,7 +15,14 @@
             android:id="@+id/image_backdrop"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"/>
 
         <ImageView
             android:id="@+id/image_poster"
@@ -44,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_title"
             android:text="Add"
-            android:drawableLeft="@drawable/button"
+            android:drawableLeft="@drawable/add_circle"
+            android:background="@drawable/rounded_button_background"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"/>
 

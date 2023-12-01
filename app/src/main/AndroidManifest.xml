@@ -31,6 +31,8 @@
         <activity
             android:name=".ui.movies.MovieDetailActivity"
             android:theme="@style/Theme.TransparentActionBar"/>
+        <activity android:name=".ui.tv_shows.TvShowDetailActivity"
+            android:theme="@style/Theme.TransparentActionBar"/>
     </application>
 
 </manifest>

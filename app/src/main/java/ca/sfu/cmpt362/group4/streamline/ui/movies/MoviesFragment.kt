@@ -13,6 +13,11 @@ import ca.sfu.cmpt362.group4.streamline.repositories.MoviesRepository
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModelFactory
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuInflater
+import androidx.core.content.ContextCompat
+import ca.sfu.cmpt362.group4.streamline.R
+import com.google.android.material.appbar.AppBarLayout
 
 
 class MoviesFragment : Fragment() {
@@ -20,10 +25,14 @@ class MoviesFragment : Fragment() {
     private lateinit var moviesAdapter: MoviesAdapter
     private lateinit var moviesViewModel: MoviesViewModel
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
 
         binding = FragmentMoviesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+
 
         moviesAdapter = MoviesAdapter(emptyList()) { movie ->
             val intent = Intent(context, MovieDetailActivity::class.java).apply {

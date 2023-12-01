@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         supportActionBar?.setLogo(R.drawable.streamline)
+
         //navigate to respective fragment
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             if(navController.currentDestination?.id != menuItem.itemId) {

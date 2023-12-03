@@ -2,11 +2,8 @@ package ca.sfu.cmpt362.group4.streamline.ui.movies
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.databinding.ItemMovieBinding
 import com.bumptech.glide.Glide
@@ -40,6 +37,7 @@ class MoviesAdapter(private var movies: List<Movie>,
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
+        println("movies in LiveData: $movies")
         holder.bind(movie)
         holder.itemView.setOnClickListener { clickListener(movie) }
     }

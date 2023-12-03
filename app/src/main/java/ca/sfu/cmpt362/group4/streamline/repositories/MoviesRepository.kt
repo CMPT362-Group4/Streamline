@@ -25,6 +25,7 @@ class MoviesRepository() {
         return try {
             val response = tmdbApi.getPopularMovies(apiKey).awaitResponse()
             if (response.isSuccessful) {
+                println(response.body()?.results)
                 response.body()?.results
             } else {
                 Log.e("MoviesRepository", "Error fetching movies: ${response.errorBody()?.string()}")

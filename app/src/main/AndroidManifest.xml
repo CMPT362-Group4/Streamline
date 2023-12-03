@@ -8,13 +8,13 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Streamline"
-        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
 
         <activity
@@ -30,9 +30,13 @@
         </activity>
         <activity
             android:name=".ui.movies.MovieDetailActivity"
-            android:theme="@style/Theme.TransparentActionBar"/>
-        <activity android:name=".ui.tv_shows.TvShowDetailActivity"
-            android:theme="@style/Theme.TransparentActionBar"/>
+            android:theme="@style/Theme.TransparentActionBar" />
+        <activity
+            android:name=".ui.tv_shows.TvShowDetailActivity"
+            android:theme="@style/Theme.TransparentActionBar" />
+<!--        <activity-->
+<!--            android:name=".ui.games."-->
+<!--            android:theme="@style/Theme.TransparentActionBar" />-->
     </application>
 
 </manifest>

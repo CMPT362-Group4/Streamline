@@ -40,19 +40,6 @@ class TvShowDetailActivity: AppCompatActivity() {
 
             Glide.with(this)
                 .load("https://image.tmdb.org/t/p/w500${it.poster_path}")
-                .error(R.drawable.streamline)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        // Log error or handle the load failure
-                        Log.e("TvShowsDetailActivity", "Error loading image", e)
-                        return false // Return false to allow Glide to handle the error
-                    }
-
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        // Image loaded successfully
-                        return false // Return false to allow Glide to handle the resource
-                    }
-                })
                 .into(binding.imagePoster)
 
             Glide.with(this)

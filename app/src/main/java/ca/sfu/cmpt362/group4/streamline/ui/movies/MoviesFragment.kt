@@ -15,15 +15,21 @@ import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModelFactory
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ca.sfu.cmpt362.group4.streamline.R
+import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
+import ca.sfu.cmpt362.group4.streamline.room.databases.MovieDatabase
 import com.google.android.material.appbar.AppBarLayout
 
 
 class MoviesFragment : Fragment() {
     private lateinit var binding: FragmentMoviesBinding
     private lateinit var moviesAdapter: MoviesAdapter
+
     private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var movieDao: MovieDao
+    private lateinit var moviesRepository: MoviesRepository
 
 
 
@@ -32,20 +38,23 @@ class MoviesFragment : Fragment() {
         binding = FragmentMoviesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //initialize database
+        movieDao = MovieDatabase.getInstance(requireContext()).movieDao
+        moviesRepository = MoviesRepository(movieDao)
+        moviesViewModel = ViewModelProvider(this, MoviesViewModelFactory(moviesRepository))[MoviesViewModel::class.java]
 
-
-        moviesAdapter = MoviesAdapter(emptyList()) { movie ->
+        //on movie click
+        moviesAdapter = MoviesAdapter(emptyList(), { movie ->
             val intent = Intent(context, MovieDetailActivity::class.java).apply {
                 putExtra("movie", movie)
+                putExtra("previousPageTitle", "Movies")
             }
             startActivity(intent)
-        }
+        }, R.layout.item_movie)
 
         binding.recyclerViewMovies.adapter = moviesAdapter
         binding.recyclerViewMovies.layoutManager = GridLayoutManager(context, 2)
 
-        val moviesRepository = MoviesRepository()
-        moviesViewModel = ViewModelProvider(this, MoviesViewModelFactory(moviesRepository)).get(MoviesViewModel::class.java)
 
         moviesViewModel.movies.observe(viewLifecycleOwner) { movies ->
             if (movies != null) {
@@ -55,6 +64,7 @@ class MoviesFragment : Fragment() {
             }
         }
 
+        //fetch movies from api service in background
         moviesViewModel.fetchMovies()
 
         return root

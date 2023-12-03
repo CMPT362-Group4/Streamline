@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.style.AlignmentSpan
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -42,7 +43,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        supportActionBar?.setLogo(R.drawable.streamline)
+        //set up logo
+        supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        supportActionBar?.setCustomView(R.layout.logo_wrapper)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         //navigate to respective fragment
         binding.navView.setNavigationItemSelectedListener { menuItem ->

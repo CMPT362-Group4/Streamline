@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import ca.sfu.cmpt362.group4.streamline.databinding.FragmentGamesBinding
 import ca.sfu.cmpt362.group4.streamline.repositories.SteamRepository
-import ca.sfu.cmpt362.group4.streamline.ui.movies.MovieDetailActivity
 import ca.sfu.cmpt362.group4.streamline.view_models.GamesViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.GamesViewModelFactory
 
@@ -30,8 +29,9 @@ class GamesFragment : Fragment() {
         val root: View = binding.root
 
         gamesAdapter = GamesAdapter(emptyList()) { game ->
-            val intent = Intent(context, MovieDetailActivity::class.java).apply {
+            val intent = Intent(context, GamesDetailActive::class.java).apply {
                 putExtra("game", game)
+                putExtra("id",game.id.toString())
             }
             startActivity(intent)
         }

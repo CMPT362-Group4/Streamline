@@ -34,9 +34,9 @@
         <activity
             android:name=".ui.tv_shows.TvShowDetailActivity"
             android:theme="@style/Theme.TransparentActionBar" />
-<!--        <activity-->
-<!--            android:name=".ui.games."-->
-<!--            android:theme="@style/Theme.TransparentActionBar" />-->
+        <activity
+            android:name=".ui.games.GamesDetailActive"
+            android:theme="@style/Theme.TransparentActionBar" />
     </application>
 
 </manifest>

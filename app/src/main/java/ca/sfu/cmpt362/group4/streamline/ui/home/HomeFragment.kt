@@ -1,5 +1,6 @@
 package ca.sfu.cmpt362.group4.streamline.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +28,7 @@ import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
 import ca.sfu.cmpt362.group4.streamline.room.databases.MovieDatabase
 import ca.sfu.cmpt362.group4.streamline.ui.movies.MovieDetailActivity
 import ca.sfu.cmpt362.group4.streamline.ui.movies.MoviesAdapter
+import ca.sfu.cmpt362.group4.streamline.ui.shared.SharedFragment
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,6 +37,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
     private lateinit var addButton: FloatingActionButton
+    private lateinit var shareButton: FloatingActionButton
 
 
 
@@ -69,6 +73,10 @@ class HomeFragment : Fragment() {
         addButton = binding.addButton
         handleAddButton()
 
+        shareButton = binding.shareButton
+        handleShareButton()
+
+
 
         return root
     }
@@ -82,6 +90,20 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun handleShareButton(){
+        shareButton.setOnClickListener(){
+            //create deep link to current list and share
+            context?.shareLink("https://streamline/share")
+        }
+    }
+
+    fun Context.shareLink(url:String) {
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT,url).type="text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent,null)
+        startActivity(shareIntent)
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)

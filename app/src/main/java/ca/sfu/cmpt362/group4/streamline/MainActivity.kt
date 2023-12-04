@@ -1,7 +1,9 @@
 package ca.sfu.cmpt362.group4.streamline
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -29,12 +31,15 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
+
         //configure app bar
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows, R.id.nav_books, R.id.nav_games
+                R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows,  R.id.nav_games, R.id.nav_books, R.id.nav_shared
             ), drawerLayout
         )
+
+
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -53,6 +58,15 @@ class MainActivity : AppCompatActivity() {
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
+        }
+
+        val uri: Uri? = intent.data
+        if (uri!= null) {
+            val params: List<String> = uri.pathSegments
+            val id:String = params[params.size-1]
+            if (id=="share") {
+                navController.navigate(R.id.nav_shared)
+            }
         }
     }
 

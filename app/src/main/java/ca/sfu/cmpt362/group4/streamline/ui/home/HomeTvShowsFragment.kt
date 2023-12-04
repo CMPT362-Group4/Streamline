@@ -1,5 +1,6 @@
 package ca.sfu.cmpt362.group4.streamline.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.databinding.FragmentHomeTvShowsBinding
-import ca.sfu.cmpt362.group4.streamline.repositories.MoviesRepository
-import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
+import ca.sfu.cmpt362.group4.streamline.repositories.TvShowsRepository
+import ca.sfu.cmpt362.group4.streamline.room.DAOs.TvShowsDao
+import ca.sfu.cmpt362.group4.streamline.room.databases.TvShowsDatabase
+import ca.sfu.cmpt362.group4.streamline.ui.tv_shows.TvShowDetailActivity
 import ca.sfu.cmpt362.group4.streamline.ui.tv_shows.TvShowsAdapter
-import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModel
+import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModelFactory
 
 class HomeTvShowsFragment : Fragment(), DeleteAllHandler {
 
@@ -20,6 +26,8 @@ class HomeTvShowsFragment : Fragment(), DeleteAllHandler {
     private lateinit var tvShowsAdapter: TvShowsAdapter
 
     private lateinit var tvShowsViewModel: TvShowsViewModel
+    private lateinit var tvShowsDao: TvShowsDao
+    private lateinit var tvShowsRepository: TvShowsRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,11 +37,42 @@ class HomeTvShowsFragment : Fragment(), DeleteAllHandler {
         binding = FragmentHomeTvShowsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //initialize database
+        tvShowsDao = TvShowsDatabase.getInstance(requireContext()).tvShowsDao
+        tvShowsRepository = TvShowsRepository(tvShowsDao)
+        tvShowsViewModel = ViewModelProvider(this, TvShowsViewModelFactory(tvShowsRepository))[TvShowsViewModel::class.java]
+
+        //handle on item click
+        tvShowsAdapter = TvShowsAdapter(emptyList(), { tvShows ->
+            val intent = Intent(context, TvShowDetailActivity::class.java).apply {
+                putExtra("tvShows", tvShows)
+                putExtra("previousPageTitle", "HomeTvShows")
+            }
+            startActivity(intent)
+        }, R.layout.item_tv_shows_home)
+
+        binding.recyclerViewSavedTvShows.adapter = tvShowsAdapter
+        binding.recyclerViewSavedTvShows.layoutManager = LinearLayoutManager(context)
+
+        //update tvShows list when data changed
+        tvShowsViewModel.savedTvShows.observe(viewLifecycleOwner) { savedTvShows ->
+            if (savedTvShows != null) {
+                tvShowsAdapter.updateTvShows(savedTvShows)
+                savedTvShows.forEach { tvShows ->
+                    Log.d("HomeTvShowsFragment", "Saved TvShows: ${tvShows.databaseId}, ${tvShows.id}, ${tvShows.name}")
+
+                }
+            } else {
+                Log.e("HomeTvShowsFragment", "Failed to update adapter")
+            }
+        }
 
         return root
     }
 
     override fun handleDeleteAll() {
-        Toast.makeText(requireContext(), "All tv shows deleted from your list", Toast.LENGTH_SHORT).show()
+        // Implement logic to delete all tvShows using tvShowsViewModel
+        tvShowsViewModel.deleteAllTvShows()
+        Toast.makeText(requireContext(), "All tvShows deleted from your list", Toast.LENGTH_SHORT).show()
     }
 }

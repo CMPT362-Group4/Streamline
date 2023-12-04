@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.edit
 import ca.sfu.cmpt362.group4.streamline.R
@@ -48,8 +49,10 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Back button
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_arrow)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.back_arrow)
 
         // Initialize Firebase instance and database
         auth = FirebaseAuth.getInstance()

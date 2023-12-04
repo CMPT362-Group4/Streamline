@@ -21,4 +21,14 @@ interface MovieDao {
     @Delete
     suspend fun deleteMovie(movie: Movie)
 
+    //use spi service id because it is unique for each movie
+    @Query("SELECT * FROM movies WHERE id = :movieId")
+    suspend fun getMovieById(movieId: Long): Movie?
+
+    @Query("DELETE FROM movies")
+    suspend fun deleteAllMovies()
+
+    @Query("UPDATE movies SET rating = :newRating WHERE databaseId = :databaseId")
+    suspend fun updateMovieRating(databaseId: Long, newRating: Float)
+
 }

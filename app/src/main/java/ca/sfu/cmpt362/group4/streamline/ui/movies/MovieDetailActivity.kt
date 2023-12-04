@@ -79,8 +79,9 @@ class MovieDetailActivity : AppCompatActivity() {
 
     fun formatLayout(){
         val previousTitle = intent.getStringExtra("previousPageTitle")
-        if (previousTitle == "Home") {
-            // Coming from HomeFragment
+
+        // Coming from HomeMoviesFragment
+        if (previousTitle == "HomeMovies") {
             Log.d("MovieDetailsActivity", "Coming from Home")
             binding.buttonAdd.visibility = View.GONE
             binding.buttonDelete.visibility = View.VISIBLE
@@ -91,8 +92,9 @@ class MovieDetailActivity : AppCompatActivity() {
             binding.ratingBar.layoutParams = params
 
             handleDeleteButton()
-        } else {
-            // Not coming from HomeFragment
+        }
+        // Not coming from HomeFragment
+        else {
             Log.d("MovieDetailsActivity", "Not coming from Home")
             binding.buttonAdd.visibility = View.VISIBLE
             binding.buttonDelete.visibility = View.GONE
@@ -103,6 +105,8 @@ class MovieDetailActivity : AppCompatActivity() {
 
     fun handleRatingBar(){
         ratingBar = binding.ratingBar
+
+        ratingBar.rating = movie.rating
 
         ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
@@ -121,6 +125,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 // Using api service id which is unique to movie
                 Log.d("MovieDetailActivity", "${movie.id}")
                 if (!moviesViewModel.isMovieInList(movie.id)) {
+                    movie.rating = ratingBar.rating
                     moviesViewModel.insertMovie(movie)
                     Toast.makeText(this, "Movie added to your list", Toast.LENGTH_SHORT).show()
                 } else {

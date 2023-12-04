@@ -21,5 +21,5 @@ data class Movie(
     val backdrop_path: String,
     val release_date: String,
     val overview: String,
-    val rating: Float
+    var rating: Float
 ) :Parcelable

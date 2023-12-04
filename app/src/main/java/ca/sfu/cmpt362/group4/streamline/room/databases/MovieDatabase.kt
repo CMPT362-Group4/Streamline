@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
 
-@Database(entities = [Movie::class], version = 1)
+@Database(entities = [Movie::class], version = 2)
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
 

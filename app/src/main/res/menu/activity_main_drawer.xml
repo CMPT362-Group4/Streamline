@@ -23,5 +23,6 @@
         <item
             android:id="@+id/nav_shared"
             android:title="Shared Content" />
+
     </group>
 </menu>

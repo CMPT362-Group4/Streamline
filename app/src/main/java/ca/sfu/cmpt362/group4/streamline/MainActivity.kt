@@ -1,11 +1,17 @@
 package ca.sfu.cmpt362.group4.streamline
 
 import android.net.Uri
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
+import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -14,7 +20,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityMainBinding
+import ca.sfu.cmpt362.group4.streamline.login.LoginActivity
+import ca.sfu.cmpt362.group4.streamline.profile.ProfileActivity
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -45,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         //set up logo
-        supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar?.setCustomView(R.layout.logo_wrapper)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -68,6 +85,47 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.nav_shared)
             }
         }
+
+
+        //nav header
+        val navHeader = binding.navView.getHeaderView(0)
+        val userProfile = navHeader.findViewById<TextView>(R.id.profile)
+        val userImage = navHeader.findViewById<ImageView>(R.id.image)
+
+        userProfile.setOnClickListener {
+            // Open ProfileActivity
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userReference =
+            currentUser?.let { FirebaseDatabase.getInstance().reference.child("users").child(it.uid) }
+
+        // Create a ValueEventListener to listen for changes in the user's name
+        val nameValueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Get the updated name from Firebase
+                    val updatedName = dataSnapshot.child("name").value.toString()
+
+                    // Update the profile text view in the nav header
+                    userProfile.text = updatedName
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+
+        // Add the ValueEventListener to the userReference
+        userReference?.addValueEventListener(nameValueEventListener)
+
+        userImage.setOnClickListener {
+            // Open ProfileActivity
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,4 +136,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Streamline"
         tools:targetApi="31">
+
+        <activity android:name=".login.LoginActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.Streamline.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".login.RegistrationActivity"
+            android:theme="@style/Theme.Streamline.NoActionBar">
+        </activity>
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:theme="@style/Theme.Streamline.NoActionBar">
+        </activity>
 
         <activity
             android:name=".MainActivity"
@@ -45,6 +68,16 @@
         <activity
             android:name=".ui.games.GamesDetailActive"
             android:theme="@style/Theme.TransparentActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

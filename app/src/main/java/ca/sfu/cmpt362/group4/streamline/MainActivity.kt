@@ -1,11 +1,7 @@
 package ca.sfu.cmpt362.group4.streamline
 
 import android.os.Bundle
-import android.text.Layout
-import android.text.SpannableString
-import android.text.style.AlignmentSpan
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -48,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setCustomView(R.layout.logo_wrapper)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.menu_hamburger)
 
         //navigate to respective fragment
         binding.navView.setNavigationItemSelectedListener { menuItem ->

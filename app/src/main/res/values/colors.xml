@@ -14,4 +14,5 @@
     <color name="dark_teal">#063230</color>
     <color name="neon_teal">#FF03DAC5</color>
     <color name="gray">#808080</color>
+    <color name="dark_grey">#060F0F</color>
 </resources>

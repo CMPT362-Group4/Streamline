@@ -3,6 +3,7 @@ package ca.sfu.cmpt362.group4.streamline.ui.games
 import android.os.Bundle
 import android.view.MenuItem
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ca.sfu.cmpt362.group4.streamline.R
@@ -28,6 +29,8 @@ class GamesDetailActive : AppCompatActivity() {
 
         webView = binding.wrapContent
         webView.settings.javaScriptEnabled = true
+
+        webView.webViewClient = WebViewClient()
         webView.loadUrl(url)
     }
 

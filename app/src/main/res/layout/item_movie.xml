@@ -2,22 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_poster"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        app:shapeAppearanceOverlay="@style/roundedCorner"/>
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:gravity="left"
         android:maxLines="1"

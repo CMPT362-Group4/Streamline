@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_poster"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:layout_marginBottom="8dp"
+        app:shapeAppearanceOverlay="@style/roundedCorner"/>
 
     <TextView
         android:id="@+id/text_title"
@@ -21,7 +23,8 @@
         android:gravity="left"
         android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="22sp"
+        android:textStyle="bold"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -38,7 +41,7 @@
             android:paddingHorizontal="5sp"
             android:text="-00%"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="CDN$ 00.00"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="8sp"
                 />
 
             <TextView
@@ -62,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="CDN$ 00.00"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
     </RelativeLayout>

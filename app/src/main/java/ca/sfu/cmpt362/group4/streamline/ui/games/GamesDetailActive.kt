@@ -31,7 +31,16 @@ class GamesDetailActive : AppCompatActivity() {
         webView.settings.javaScriptEnabled = true
 
         webView.webViewClient = WebViewClient()
-        webView.loadUrl(url)
+        if (savedInstanceState == null) {
+            webView.loadUrl(url)
+        } else {
+            webView.restoreState(savedInstanceState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        webView.saveState(outState)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

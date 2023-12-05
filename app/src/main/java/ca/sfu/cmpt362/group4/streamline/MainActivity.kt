@@ -1,18 +1,13 @@
 package ca.sfu.cmpt362.group4.streamline
 
-import android.net.Uri
-import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toast
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,7 +15,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityMainBinding
-import ca.sfu.cmpt362.group4.streamline.login.LoginActivity
 import ca.sfu.cmpt362.group4.streamline.profile.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
@@ -48,15 +42,12 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
-
         //configure app bar
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows,  R.id.nav_games, R.id.nav_books, R.id.nav_shared
             ), drawerLayout
         )
-
-
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -68,15 +59,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.menu_hamburger)
 
-        //navigate to respective fragment
-        binding.navView.setNavigationItemSelectedListener { menuItem ->
-            if(navController.currentDestination?.id != menuItem.itemId) {
-                navController.navigate(menuItem.itemId)
-            }
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }
-
         val uri: Uri? = intent.data
         if (uri!= null) {
             val params: List<String> = uri.pathSegments
@@ -85,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.nav_shared)
             }
         }
-
 
         //nav header
         val navHeader = binding.navView.getHeaderView(0)

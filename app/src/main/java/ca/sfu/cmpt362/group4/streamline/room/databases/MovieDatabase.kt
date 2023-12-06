@@ -7,23 +7,22 @@ import androidx.room.RoomDatabase
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
 
-@Database(entities = [Movie::class], version = 2)
+@Database(entities = [Movie::class], version = 5)
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
 
     companion object{
-        @Volatile
-        private var INSTANCE: MovieDatabase? = null
+        private val instances: MutableMap<String, MovieDatabase> = mutableMapOf()
 
-        fun getInstance(context: Context) : MovieDatabase{
+        fun getInstance(context: Context, userId: String) : MovieDatabase{
             synchronized(this){
-                var instance = INSTANCE
+                var instance = instances[userId]
                 if(instance == null){
                     instance = Room.databaseBuilder(context.applicationContext,
-                        MovieDatabase::class.java, "movies")
+                        MovieDatabase::class.java, "movies_$userId")
                         .fallbackToDestructiveMigration()
                         .build()
-                    INSTANCE = instance
+                    instances[userId] = instance
                 }
                 return instance
             }

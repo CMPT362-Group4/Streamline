@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movies ORDER BY databaseId DESC")
+    @Query("SELECT * FROM movies ORDER BY roomId DESC")
     fun getAllMovies(): Flow<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -28,7 +28,7 @@ interface MovieDao {
     @Query("DELETE FROM movies")
     suspend fun deleteAllMovies()
 
-    @Query("UPDATE movies SET rating = :newRating WHERE databaseId = :databaseId")
-    suspend fun updateMovieRating(databaseId: Long, newRating: Float)
+    @Query("UPDATE movies SET rating = :newRating WHERE id = :id")
+    suspend fun updateMovieRating(id: Long, newRating: Float)
 
 }

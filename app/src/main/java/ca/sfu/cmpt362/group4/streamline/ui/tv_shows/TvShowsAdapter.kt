@@ -9,7 +9,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ca.sfu.cmpt362.group4.streamline.R
-import ca.sfu.cmpt362.group4.streamline.data_models.TvShows
+import ca.sfu.cmpt362.group4.streamline.data_models.TvShow
 import com.bumptech.glide.Glide
 
 class TvShowsViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
@@ -20,7 +20,7 @@ class TvShowsViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
     private val ratingBar: RatingBar? = view.findViewById(R.id.rating_bar)
 
 
-    fun bind(tvShow: TvShows){
+    fun bind(tvShow: TvShow){
         textTitle.text = tvShow.name
         val year = tvShow.first_air_date.split("-").firstOrNull() // Assumes format is "YYYY-MM-DD"
         textReleaseDate.text = year
@@ -37,8 +37,8 @@ class TvShowsViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
     }
 }
 
-class TvShowsAdapter( private var tvShows: List<TvShows>,
-                      private val clickListener: (TvShows) -> Unit,
+class TvShowsAdapter( private var tvShows: List<TvShow>,
+                      private val clickListener: (TvShow) -> Unit,
                       private val layoutResId: Int
 ): RecyclerView.Adapter<TvShowsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowsViewHolder {
@@ -55,7 +55,7 @@ class TvShowsAdapter( private var tvShows: List<TvShows>,
 
     override fun getItemCount() = tvShows.size
 
-    fun updateTvShows(newTvShows: List<TvShows>) {
+    fun updateTvShows(newTvShows: List<TvShow>) {
         tvShows = newTvShows
         notifyDataSetChanged()
     }

@@ -7,39 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.databinding.FragmentTvShowsBinding
-import ca.sfu.cmpt362.group4.streamline.repositories.TvShowsRepository
-import ca.sfu.cmpt362.group4.streamline.room.DAOs.TvShowsDao
-import ca.sfu.cmpt362.group4.streamline.room.databases.TvShowsDatabase
 import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 class TvShowsFragment : Fragment() {
     private lateinit var binding: FragmentTvShowsBinding
     private lateinit var tvShowsAdapter: TvShowsAdapter
 
-    private lateinit var tvShowsViewModel: TvShowsViewModel
-    private lateinit var tvShowsDao: TvShowsDao
-    private lateinit var tvShowsRepository: TvShowsRepository
+    val tvShowsViewModel: TvShowsViewModel by viewModels {
+        TvShowsViewModelFactory(requireContext())
+    }
+
+    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
 
         binding = FragmentTvShowsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //initialize database
-        tvShowsDao = TvShowsDatabase.getInstance(requireContext()).tvShowsDao
-        tvShowsRepository = TvShowsRepository(tvShowsDao)
-        tvShowsViewModel = ViewModelProvider(this, TvShowsViewModelFactory(tvShowsRepository))[TvShowsViewModel::class.java]
 
         //on movie click
         tvShowsAdapter = TvShowsAdapter(emptyList(), { tvShows ->
             val intent = Intent(context, TvShowDetailActivity::class.java).apply {
                 putExtra("tvShows", tvShows)
-                putExtra("previousPageTitle", "Movies")
+                putExtra("previousPageTitle", "TvShows")
             }
             startActivity(intent)
         }, R.layout.item_tv_show)

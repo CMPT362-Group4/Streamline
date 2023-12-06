@@ -6,12 +6,24 @@
     android:background="@color/darker_background">
 
     <EditText
+        android:id="@+id/nameRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/neon_teal"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
         android:id="@+id/emailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
+        android:layout_below="@id/nameRegister"
         android:backgroundTint="@color/neon_teal"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="16dp"/>

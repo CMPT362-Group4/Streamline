@@ -15,7 +15,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityMainBinding
-import ca.sfu.cmpt362.group4.streamline.profile.ProfileActivity
+import ca.sfu.cmpt362.group4.streamline.ui.profile.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -33,9 +33,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firebase
-        FirebaseApp.initializeApp(this)
-
         setSupportActionBar(binding.appBarMain.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -45,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         //configure app bar
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows,  R.id.nav_games, R.id.nav_books, R.id.nav_shared
+                R.id.nav_home, R.id.nav_movies, R.id.nav_tv_shows,  R.id.nav_games, R.id.nav_books, R.id.nav_shared, R.id.nav_explore
             ), drawerLayout
         )
 
@@ -90,8 +87,13 @@ class MainActivity : AppCompatActivity() {
                     // Get the updated name from Firebase
                     val updatedName = dataSnapshot.child("name").value.toString()
 
-                    // Update the profile text view in the nav header
-                    userProfile.text = updatedName
+                    if(!updatedName.isNullOrEmpty()) {
+                        // Update the profile text view in the nav header
+                        userProfile.text = updatedName
+                    }
+                    else{
+                        userProfile.text = "Edit My Profile"
+                    }
                 }
             }
 

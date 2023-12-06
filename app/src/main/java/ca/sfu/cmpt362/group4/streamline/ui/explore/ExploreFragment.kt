@@ -1,6 +1,5 @@
-package ca.sfu.cmpt362.group4.streamline.ui.people
+package ca.sfu.cmpt362.group4.streamline.ui.explore
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -17,23 +16,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.User
-import ca.sfu.cmpt362.group4.streamline.databinding.FragmentPeopleBinding
-import ca.sfu.cmpt362.group4.streamline.ui.home.HomeFragment
+import ca.sfu.cmpt362.group4.streamline.databinding.FragmentExploreBinding
 import ca.sfu.cmpt362.group4.streamline.ui.user_list_display.UserListDisplayFragment
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class PeopleFragment : Fragment() {
+class ExploreFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var searchResultsRecyclerView: RecyclerView
 
     private val searchResultsAdapter = SearchResultsAdapter()
 
-    private lateinit var binding: FragmentPeopleBinding
+    private lateinit var binding: FragmentExploreBinding
 
     private val usersReference = FirebaseDatabase.getInstance().reference.child("users")
 
@@ -43,7 +40,7 @@ class PeopleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPeopleBinding.inflate(inflater, container, false)
+        binding = FragmentExploreBinding.inflate(inflater, container, false)
         val root = binding.root
 
         searchView = binding.searchView
@@ -118,7 +115,7 @@ class PeopleFragment : Fragment() {
                     val email = userSnapshot.child("email").getValue(String::class.java)
                     val uid = userSnapshot.key
                     val name = userSnapshot.child("name").getValue(String::class.java)
-                    Log.d("PeopleFrag", "name is $name, email is $email, uid is $uid")
+                    Log.d("ExploreFrag", "name is $name, email is $email, uid is $uid")
 
                     // Check if the name matches the query
                     if (name != null && name.contains(query, ignoreCase = true)) {
@@ -156,7 +153,7 @@ class PeopleFragment : Fragment() {
 
 
     private fun openUserListDisplayFragment(userId: String) {
-        Log.d("PeopleFragment", "In open function")
+        Log.d("ExploreFragment", "In open function")
         // Open HomeMoviesFragment with the selected user's UID
         val bundle = Bundle()
         bundle.putString("userId", userId)

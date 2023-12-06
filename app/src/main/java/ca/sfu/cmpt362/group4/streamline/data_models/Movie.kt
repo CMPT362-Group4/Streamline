@@ -1,4 +1,5 @@
 package ca.sfu.cmpt362.group4.streamline.data_models
+
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -12,7 +13,7 @@ data class MovieResponse(
 data class Movie(
     //id for saved movies database
     @PrimaryKey(autoGenerate = true)
-    val databaseId: Long,
+    val roomId: Long,
 
     //this is id from api service
     val id: Long,
@@ -22,4 +23,7 @@ data class Movie(
     val release_date: String,
     val overview: String,
     var rating: Float
-) :Parcelable
+) :Parcelable {
+    // No-argument constructor
+    constructor() : this(0, 0, "", "", "", "", "", 0.0f)
+}

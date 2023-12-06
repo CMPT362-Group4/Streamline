@@ -1,4 +1,4 @@
-package ca.sfu.cmpt362.group4.streamline.ui.people
+package ca.sfu.cmpt362.group4.streamline.ui.explore
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package ca.sfu.cmpt362.group4.streamline.profile
+package ca.sfu.cmpt362.group4.streamline.ui.profile
 
 import android.content.Context
 import android.content.Intent
@@ -64,7 +64,9 @@ class ProfileActivity : AppCompatActivity() {
             if (dataSnapshot.exists()) {
                 // Load user name from Firebase
                 val savedUserName = dataSnapshot.child("name").value.toString()
-                binding.userName.setText(savedUserName)
+
+                if(!savedUserName.isNullOrEmpty())
+                    binding.userName.setText(savedUserName)
             }
         }
 
@@ -106,7 +108,7 @@ class ProfileActivity : AppCompatActivity() {
             // Redirect to LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
+            finishAffinity()
         }
     }
 
@@ -116,6 +118,7 @@ class ProfileActivity : AppCompatActivity() {
         sharedPreferences.edit {
             putBoolean("isLoggedIn", isLoggedIn)
         }
+        Log.d("Profile Activity", "isLoggedIn: ${sharedPreferences.getBoolean("isLoggedIn", true)}")
     }
 
     private fun handleChangePasswordButton(){

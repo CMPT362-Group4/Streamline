@@ -7,28 +7,28 @@ import android.view.View
 import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import ca.sfu.cmpt362.group4.streamline.R
-import ca.sfu.cmpt362.group4.streamline.data_models.TvShows
+import ca.sfu.cmpt362.group4.streamline.data_models.TvShow
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityTvShowDetailBinding
-import ca.sfu.cmpt362.group4.streamline.repositories.TvShowsRepository
-import ca.sfu.cmpt362.group4.streamline.room.DAOs.TvShowsDao
-import ca.sfu.cmpt362.group4.streamline.room.databases.TvShowsDatabase
 import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.TvShowsViewModelFactory
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 
 class TvShowDetailActivity: AppCompatActivity() {
     private lateinit var binding: ActivityTvShowDetailBinding
-    private lateinit var tvShows: TvShows
+    private lateinit var tvShows: TvShow
 
-    private lateinit var tvShowsViewModel: TvShowsViewModel
-    private lateinit var tvShowsDao: TvShowsDao
-    private lateinit var tvShowsRepository: TvShowsRepository
+    val tvShowsViewModel: TvShowsViewModel by viewModels {
+        TvShowsViewModelFactory(this)
+    }
 
     private lateinit var ratingBar: RatingBar
+
+    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,12 +45,8 @@ class TvShowDetailActivity: AppCompatActivity() {
         supportActionBar?.title = ""
         formatLayout()
 
-        tvShowsDao = TvShowsDatabase.getInstance(this).tvShowsDao
-        tvShowsRepository = TvShowsRepository(tvShowsDao)
-        tvShowsViewModel = ViewModelProvider(this, TvShowsViewModelFactory(tvShowsRepository))[TvShowsViewModel::class.java]
 
-
-        tvShows = intent.getParcelableExtra<TvShows>("tvShows")!!
+        tvShows = intent.getParcelableExtra<TvShow>("tvShows")!!
 
         tvShows?.let {
             binding.textTitle.text = it.name
@@ -87,13 +83,18 @@ class TvShowDetailActivity: AppCompatActivity() {
 
             handleDeleteButton()
         }
-        // Not coming from HomeFragment
-        else {
+        // Coming from TvShowsFragment
+        else if (previousTitle == "TvShows"){
             Log.d("TvShowsDetailsActivity", "Not coming from Home")
             binding.buttonAdd.visibility = View.VISIBLE
             binding.buttonDelete.visibility = View.GONE
 
             handleAddButton()
+        }
+        //Coming from UserListDisplayFragment
+        else{
+            binding.buttonAdd.visibility = View.GONE
+            binding.buttonDelete.visibility = View.GONE
         }
     }
 
@@ -105,7 +106,8 @@ class TvShowDetailActivity: AppCompatActivity() {
         ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 tvShows?.let {
-                    tvShowsViewModel.updateTvShowsRating(it.databaseId, rating)
+                    tvShowsViewModel.updateTvShowsRating(it.id, rating)
+                    tvShowsViewModel.updateTvShowFieldInFirebase(it.id, "rating", rating)
                 }
             }
         }
@@ -121,9 +123,9 @@ class TvShowDetailActivity: AppCompatActivity() {
                 if (!tvShowsViewModel.isTvShowsInList(tvShows.id)) {
                     tvShows.rating = ratingBar.rating
                     tvShowsViewModel.insertTvShows(tvShows)
-                    Toast.makeText(this, "TvShows added to your list", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "TvShow added to your list", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "TvShows is already in your list", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "TvShow is already in your list", Toast.LENGTH_SHORT).show()
                 }
 
                 finish()
@@ -137,10 +139,10 @@ class TvShowDetailActivity: AppCompatActivity() {
         binding.buttonDelete.setOnClickListener {
             tvShows?.let {
                 // Delete the tvShows from database
-                tvShowsViewModel.deleteTvShows(it)
+                tvShowsViewModel.deleteTvShow(it)
 
                 // Display a message
-                Toast.makeText(this, "TvShows deleted from your list", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "TvShow deleted from your list", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

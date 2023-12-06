@@ -5,12 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.databinding.DialogFragmentChooseMediaTypeBinding
-import ca.sfu.cmpt362.group4.streamline.databinding.FragmentHomeBinding
 
 class ChooseMediaTypeDialogFragment : DialogFragment() {
     private lateinit var binding: DialogFragmentChooseMediaTypeBinding
@@ -21,19 +19,15 @@ class ChooseMediaTypeDialogFragment : DialogFragment() {
 
         binding.buttonMovies.setOnClickListener {
             navigateToFragment(R.id.nav_movies)
-            dismiss()
         }
         binding.buttonTvShows.setOnClickListener {
             navigateToFragment(R.id.nav_tv_shows)
-            dismiss()
         }
         binding.buttonBooks.setOnClickListener {
             navigateToFragment(R.id.nav_books)
-            dismiss()
         }
         binding.buttonGames.setOnClickListener {
             navigateToFragment(R.id.nav_games)
-            dismiss()
         }
 
 
@@ -41,6 +35,9 @@ class ChooseMediaTypeDialogFragment : DialogFragment() {
     }
 
     private fun navigateToFragment(fragmentId: Int) {
-        findNavController().navigate(fragmentId)
+        val navController = findNavController()
+        navController.popBackStack(R.id.nav_home, true)
+        navController.navigate(fragmentId)
+        dismiss()
     }
 }

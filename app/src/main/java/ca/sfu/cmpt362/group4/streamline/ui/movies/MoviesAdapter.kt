@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
-import ca.sfu.cmpt362.group4.streamline.databinding.ItemMovieBinding
 import com.bumptech.glide.Glide
 
 class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {

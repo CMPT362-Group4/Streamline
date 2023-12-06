@@ -4,26 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ca.sfu.cmpt362.group4.streamline.data_models.TvShows
+import ca.sfu.cmpt362.group4.streamline.data_models.TvShow
 import ca.sfu.cmpt362.group4.streamline.room.DAOs.TvShowsDao
 
-@Database(entities = [TvShows::class], version = 2)
+@Database(entities = [TvShow::class], version = 6)
 abstract class TvShowsDatabase : RoomDatabase() {
     abstract val tvShowsDao: TvShowsDao
 
     companion object{
-        @Volatile
-        private var INSTANCE: TvShowsDatabase? = null
+        private val instances: MutableMap<String, TvShowsDatabase> = mutableMapOf()
 
-        fun getInstance(context: Context) : TvShowsDatabase{
+        fun getInstance(context: Context, userId: String) : TvShowsDatabase{
             synchronized(this){
-                var instance = INSTANCE
+                var instance = TvShowsDatabase.instances[userId]
                 if(instance == null){
                     instance = Room.databaseBuilder(context.applicationContext,
-                        TvShowsDatabase::class.java, "tv_shows")
+                        TvShowsDatabase::class.java, "tv_shows_$userId")
                         .fallbackToDestructiveMigration()
                         .build()
-                    INSTANCE = instance
+                    instances[userId] = instance
                 }
                 return instance
             }

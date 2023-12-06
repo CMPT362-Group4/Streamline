@@ -36,7 +36,7 @@
             android:theme="@style/Theme.Streamline.NoActionBar">
         </activity>
         <activity
-            android:name=".profile.ProfileActivity"
+            android:name=".ui.profile.ProfileActivity"
             android:theme="@style/Theme.Streamline.NoActionBar">
         </activity>
 

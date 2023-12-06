@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 data class TvResponse(
-    val results: List<TvShows>
+    val results: List<TvShow>
 )
 
 @Entity(tableName = "tv_shows")
 @Parcelize
-data class TvShows(
+data class TvShow(
     //id for saved tvShows database
     @PrimaryKey(autoGenerate = true)
-    val databaseId: Long,
+    val roomId: Long,
 
     //this is id from api service
     val id: Long,
@@ -24,4 +24,8 @@ data class TvShows(
     val first_air_date: String,
     val overview: String,
     var rating: Float
-) :Parcelable
+) :Parcelable {
+    // No-argument constructor
+    constructor() : this(0, 0, "", "", "", "", "", 0.0f)
+}
+

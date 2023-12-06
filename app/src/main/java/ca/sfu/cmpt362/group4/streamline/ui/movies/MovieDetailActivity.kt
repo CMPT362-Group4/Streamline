@@ -1,44 +1,41 @@
 package ca.sfu.cmpt362.group4.streamline.ui.movies
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.databinding.ActivityMovieDetailBinding
-import ca.sfu.cmpt362.group4.streamline.repositories.MoviesRepository
-import ca.sfu.cmpt362.group4.streamline.room.DAOs.MovieDao
-import ca.sfu.cmpt362.group4.streamline.room.databases.MovieDatabase
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModel
 import ca.sfu.cmpt362.group4.streamline.view_models.MoviesViewModelFactory
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
+import com.google.firebase.auth.FirebaseAuth
 
 class MovieDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMovieDetailBinding
     private lateinit var movie: Movie
 
-    private lateinit var moviesViewModel: MoviesViewModel
-    private lateinit var movieDao: MovieDao
-    private lateinit var moviesRepository: MoviesRepository
+    private val moviesViewModel: MoviesViewModel by viewModels {
+        MoviesViewModelFactory(this)
+    }
 
     private lateinit var ratingBar: RatingBar
+
+    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         // Enable the back button
         setSupportActionBar(binding.toolbar)
@@ -48,10 +45,6 @@ class MovieDetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = ""
         formatLayout()
-
-        movieDao = MovieDatabase.getInstance(this).movieDao
-        moviesRepository = MoviesRepository(movieDao)
-        moviesViewModel = ViewModelProvider(this, MoviesViewModelFactory(moviesRepository))[MoviesViewModel::class.java]
 
         movie = intent.getParcelableExtra<Movie>("movie")!!
 
@@ -73,7 +66,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 .load("https://image.tmdb.org/t/p/w500${it.backdrop_path}")
                 .into(binding.imageBackdrop)
         }
-        handleAddButton()
+        //handleAddButton()
         handleRatingBar()
     }
 
@@ -93,13 +86,18 @@ class MovieDetailActivity : AppCompatActivity() {
 
             handleDeleteButton()
         }
-        // Not coming from HomeFragment
-        else {
+        // Coming from Movies Fragment
+        else if(previousTitle == "Movies"){
             Log.d("MovieDetailsActivity", "Not coming from Home")
             binding.buttonAdd.visibility = View.VISIBLE
             binding.buttonDelete.visibility = View.GONE
 
             handleAddButton()
+        }
+        // Coming from UserListDisplay
+        else {
+            binding.buttonAdd.visibility = View.GONE
+            binding.buttonDelete.visibility = View.GONE
         }
     }
 
@@ -111,7 +109,8 @@ class MovieDetailActivity : AppCompatActivity() {
         ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 movie?.let {
-                    moviesViewModel.updateMovieRating(it.databaseId, rating)
+                    moviesViewModel.updateMovieRating(it.id, rating)
+                    moviesViewModel.updateMovieFieldInFirebase(it.id, "rating", rating)
                 }
             }
         }

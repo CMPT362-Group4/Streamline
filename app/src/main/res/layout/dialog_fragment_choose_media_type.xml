@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/darker_background"
+    android:padding="50dp">
+
+    <Button
+        android:id="@+id/button_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Movies"
+        android:textSize="25dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+    <Button
+        android:id="@+id/button_tv_shows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TV Shows"
+        android:textSize="25dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+    <Button
+        android:id="@+id/button_books"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Books"
+        android:textSize="25dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+    <Button
+        android:id="@+id/button_games"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Games"
+        android:textSize="25dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+
+</LinearLayout>

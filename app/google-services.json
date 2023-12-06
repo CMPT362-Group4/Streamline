@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996224086179",
+    "project_id": "streamline-e6cda",
+    "storage_bucket": "streamline-e6cda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996224086179:android:8a2393e066dd3ce72dcf16",
+        "android_client_info": {
+          "package_name": "ca.sfu.cmpt362.group4.streamline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDddsencBWqK4zqzio7FQliobRM62rZOdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

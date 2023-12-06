@@ -62,7 +62,7 @@ class TvShowsFragment : Fragment() {
         //on TV show click
         tvShowsAdapter = TvShowsAdapter(emptyList(), { tvShow ->
             val intent = Intent(context, TvShowDetailActivity::class.java).apply {
-                putExtra("tvShow", tvShow)
+                putExtra("tvShows", tvShow)
                 putExtra("previousPageTitle", "TvShows")
             }
             startActivity(intent)

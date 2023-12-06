@@ -60,3 +60,59 @@ class TvShowsAdapter( private var tvShows: List<TvShow>,
         notifyDataSetChanged()
     }
 }
+
+
+class SearchTvShowAdapter : RecyclerView.Adapter<SearchTvShowAdapter.TvShowViewHolder>() {
+
+    private var tvShows: List<TvShow> = emptyList()
+    private var onItemClickListener: ((TvShow) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_tv_show_search, parent, false)
+        return TvShowViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
+        val tvShow = tvShows[position]
+        holder.bind(tvShow)
+    }
+
+    override fun getItemCount(): Int = tvShows.size
+
+    fun submitList(newTvShows: List<TvShow>) {
+        tvShows = newTvShows
+        notifyDataSetChanged()
+    }
+
+    fun setOnItemClickListener(listener: (TvShow) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    inner class TvShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val searchResultImage: ImageView = itemView.findViewById(R.id.searchResultImage)
+        private val searchResultName: TextView = itemView.findViewById(R.id.searchResultName)
+        private val searchResultReleaseDate: TextView =
+            itemView.findViewById(R.id.searchResultReleaseDate)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val tvShow = tvShows[position]
+                    onItemClickListener?.invoke(tvShow)
+                }
+            }
+        }
+
+        fun bind(tvShow: TvShow) {
+            // Load the image using Glide
+            Glide.with(searchResultImage.context)
+                .load("https://image.tmdb.org/t/p/w500${tvShow.poster_path}")
+                .into(searchResultImage)
+
+            searchResultName.text = tvShow.name
+            searchResultReleaseDate.text = tvShow.first_air_date
+        }
+    }
+}

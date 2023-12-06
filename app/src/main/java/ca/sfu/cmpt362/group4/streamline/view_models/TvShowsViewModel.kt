@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import ca.sfu.cmpt362.group4.streamline.data_models.Movie
 import ca.sfu.cmpt362.group4.streamline.data_models.TvShow
 import ca.sfu.cmpt362.group4.streamline.repositories.MoviesRepository
 import ca.sfu.cmpt362.group4.streamline.repositories.TvShowsRepository
@@ -24,10 +25,28 @@ class TvShowsViewModel(private val repository: TvShowsRepository): ViewModel() {
 
     val savedTvShows: LiveData<List<TvShow>> = repository.savedTvShows.asLiveData()
 
-    fun fetchTvShows() {
+    fun fetchPopularTvShows() {
         viewModelScope.launch(Dispatchers.IO) {
             val tvShowsList = repository.getPopularTv()
             tvShows.postValue(tvShowsList)
+        }
+    }
+
+    suspend fun searchTvShowsByName(tvShowName: String): List<TvShow>? {
+        return repository.searchTvShowsByNameFromTmdb(tvShowName)
+    }
+
+    fun fetchTopRatedTvShows() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tvShowList = repository.getTopRatedTvShows()
+            tvShows.postValue(tvShowList)
+        }
+    }
+
+    fun fetchOnTheAirTvShows() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tvShowList = repository.getOnTheAirTvShows()
+            tvShows.postValue(tvShowList)
         }
     }
 

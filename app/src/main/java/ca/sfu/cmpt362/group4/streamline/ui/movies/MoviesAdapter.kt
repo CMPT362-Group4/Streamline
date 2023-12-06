@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ca.sfu.cmpt362.group4.streamline.R
 import ca.sfu.cmpt362.group4.streamline.data_models.Movie
+import ca.sfu.cmpt362.group4.streamline.data_models.User
 import com.bumptech.glide.Glide
 
 class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -61,5 +63,61 @@ class MoviesAdapter(private var movies: List<Movie>,
     fun updateMovies(newMovies: List<Movie>) {
         movies = newMovies
         notifyDataSetChanged()
+    }
+}
+
+
+class SearchMovieAdapter : RecyclerView.Adapter<SearchMovieAdapter.MovieViewHolder>() {
+
+    private var movies: List<Movie> = emptyList()
+    private var onItemClickListener: ((Movie) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_movie_search, parent, false)
+        return MovieViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        val movie = movies[position]
+        holder.bind(movie)
+    }
+
+    override fun getItemCount(): Int = movies.size
+
+    fun submitList(newMovies: List<Movie>) {
+        movies = newMovies
+        notifyDataSetChanged()
+    }
+
+    fun setOnItemClickListener(listener: (Movie) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val searchResultImage: ImageView = itemView.findViewById(R.id.searchResultImage)
+        private val searchResultName: TextView = itemView.findViewById(R.id.searchResultName)
+        private val searchResultReleaseDate: TextView =
+            itemView.findViewById(R.id.searchResultReleaseDate)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val movie = movies[position]
+                    onItemClickListener?.invoke(movie)
+                }
+            }
+        }
+
+        fun bind(movie: Movie) {
+            // Load the image using Glide
+            Glide.with(searchResultImage.context)
+                .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
+                .into(searchResultImage)
+
+            searchResultName.text = movie.title
+            searchResultReleaseDate.text = movie.release_date
+        }
     }
 }

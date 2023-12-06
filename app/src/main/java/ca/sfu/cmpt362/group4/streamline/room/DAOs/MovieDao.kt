@@ -28,6 +28,9 @@ interface MovieDao {
     @Query("DELETE FROM movies")
     suspend fun deleteAllMovies()
 
+    @Query("SELECT * FROM movies WHERE title LIKE '%' || :movieName || '%'")
+    suspend fun searchMoviesByName(movieName: String): List<Movie>
+
     @Query("UPDATE movies SET rating = :newRating WHERE id = :id")
     suspend fun updateMovieRating(id: Long, newRating: Float)
 

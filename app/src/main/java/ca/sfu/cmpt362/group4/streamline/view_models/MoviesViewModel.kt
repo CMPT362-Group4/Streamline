@@ -31,9 +31,23 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
 
     val savedMovies: LiveData<List<Movie>> = repository.savedMovies.asLiveData()
 
-    fun fetchMovies() {
+    fun fetchPopularMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             val movieList = repository.getPopularMovies()
+            movies.postValue(movieList)
+        }
+    }
+
+    fun fetchTopRatedMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val movieList = repository.getTopRatedMovies()
+            movies.postValue(movieList)
+        }
+    }
+
+    fun fetchNowPlayingMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val movieList = repository.getNowPlayingMovies()
             movies.postValue(movieList)
         }
     }
@@ -50,6 +64,10 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
             repository.deleteMovie(movie)
             repository.deleteMovieFromFirebase(movie.id)
         }
+    }
+
+    suspend fun searchMoviesByName(movieName: String): List<Movie>? {
+        return repository.searchMoviesByNameFromTmdb(movieName)
     }
 
     fun deleteAllMovies() {

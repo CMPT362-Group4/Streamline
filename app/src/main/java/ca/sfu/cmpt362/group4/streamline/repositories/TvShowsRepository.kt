@@ -33,7 +33,7 @@ class TvShowsRepository(private val tvShowsDao: TvShowsDao) {
 
     suspend fun getPopularTv(): List<TvShow>? {
         return try {
-            val response = tmdbApi.getPopularTv(apiKey).awaitResponse()
+            val response = tmdbApi.getPopularTvShows(apiKey)
             if (response.isSuccessful) {
                 response.body()?.results
             } else {
@@ -42,6 +42,51 @@ class TvShowsRepository(private val tvShowsDao: TvShowsDao) {
             }
         } catch (e: Exception) {
             Log.e("TvShowsRepository", "Exception fetching tv shows", e)
+            null
+        }
+    }
+
+    suspend fun searchTvShowsByNameFromTmdb(query: String): List<TvShow>? {
+        return try {
+            val response = tmdbApi.searchTvShows(apiKey, query)
+            if (response.isSuccessful) {
+                response.body()?.results
+            } else {
+                Log.e("MoviesRepository", "Error searching TV shows by name: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("MoviesRepository", "Exception searching TV shows by name", e)
+            null
+        }
+    }
+
+    suspend fun getTopRatedTvShows(): List<TvShow>? {
+        return try {
+            val response = tmdbApi.getTopRatedTvShows(apiKey)
+            if (response.isSuccessful) {
+                response.body()?.results
+            } else {
+                Log.e("MoviesRepository", "Error fetching top-rated TV shows: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("MoviesRepository", "Exception fetching top-rated TV shows", e)
+            null
+        }
+    }
+
+    suspend fun getOnTheAirTvShows(): List<TvShow>? {
+        return try {
+            val response = tmdbApi.getOnTheAirTvShows(apiKey)
+            if (response.isSuccessful) {
+                response.body()?.results
+            } else {
+                Log.e("MoviesRepository", "Error fetching on-the-air TV shows: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("MoviesRepository", "Exception fetching on-the-air TV shows", e)
             null
         }
     }

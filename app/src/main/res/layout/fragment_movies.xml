@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="0dp"
     tools:context=".ui.movies.MoviesFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Spinner
+        android:id="@+id/sortingSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewMovies"
+        android:popupBackground="@color/dark_background"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        tools:layout_editor_absoluteY="49dp" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:queryHint="Search for users"
+        android:theme="@style/SearchViewTheme"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewMovies"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Popular Movies"
-        android:textSize="35dp"
-        android:textColor="@color/teal_200"
-        android:layout_marginStart="10dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMovies"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="611dp"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:layout_marginTop="50dp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="104dp" />
 
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingVertical="0dp"
-    tools:context=".ui.movies.MoviesFragment">
+    tools:context=".ui.tv_shows.TvShowsFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -19,13 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:popupBackground="@color/dark_background"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewTvShows"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482" />
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewTvShows"
+        android:popupBackground="@color/dark_background"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        tools:layout_editor_absoluteY="49dp" />
 
     <SearchView
         android:id="@+id/searchView"
